@@ -2,7 +2,7 @@ type Self<S> = (self: S) => void;
 
 class Channel<T> {
   values: Array<T> = [];
-  receiver: (value: T | undefined) => void;
+  receiver!: (value: T) => void;
 
   constructor(impl: Self<Channel<T>>) {
     impl(this);
@@ -10,22 +10,26 @@ class Channel<T> {
 }
 
 class Receiver<T> {
-  channel: Channel<T>;
+  channel!: Channel<T>;
 
   constructor(impl: Self<Receiver<T>>) {
     impl(this);
   }
 
-  recv(receiver: (value: T | undefined) => void): T | undefined {
+  recv(receiver: (value: T) => void): T | undefined {
     const value = this.channel.values.pop();
-    this.channel.receiver = receiver;
-    this.channel.receiver(value);
+    
+    if (this.channel.values.length) {
+      this.channel.receiver = receiver;
+      this.channel.receiver(value!);
+    }
+    
     return value;
   }
 }
 
 class Sender<T> {
-  channel: Channel<T>;
+  channel!: Channel<T>;
 
   constructor(impl: Self<Sender<T>>) {
     impl(this);
@@ -34,8 +38,8 @@ class Sender<T> {
   send(value: T) {
     this.channel.values.unshift(value);
     
-    if (typeof this.channel.receiver === "function") {
-      this.channel.receiver(this.channel.values.pop());
+    if (typeof this.channel.receiver === "function" && this.channel.values.length) {
+      this.channel.receiver(this.channel.values.pop()!);
     }
   }
 }
