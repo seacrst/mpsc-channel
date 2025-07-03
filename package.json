@@ -1,0 +1,55 @@
+{
+  "name": "mpsc-channel",
+  "version": "1.0.0",
+  "description": "Simple mpsc channel function",
+  "scripts": {
+    "start": "concurrently \"npm run check\" \"npm run watch\"",
+    "watch": "node --watch lib/esm/lib.js",
+    "check": "esbuild src/lib.ts --bundle --outdir=lib/esm --watch",
+    "build": "npm run dts && npm run build:esm && npm run build:cjs",
+    "build:config": "node build-esm.config.mjs && node build-cjs.config.mjs",
+    "dts": "npm run ts:esm && npm run ts:cjs",
+    "ts:esm": "tsc --emitDeclarationOnly --outDir lib/esm",
+    "ts:cjs": "tsc --emitDeclarationOnly --moduleResolution bundler --outDir lib/cjs",
+    "build:esm": "esbuild src/**/*.ts --splitting --outdir=lib/esm --format=esm --minify",
+    "build:cjs": "esbuild src/**/*.ts --outdir=lib/cjs --format=cjs --minify --platform=node"
+  },
+  "types": "./lib/esm/lib.d.ts",
+  "main": "./lib/cjs/lib.js",
+  "module": "./lib/esm/lib.js",
+  "files": [
+    "./lib/esm/",
+    "./lib/cjs/",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./lib/esm/lib.js",
+      "require": "./lib/cjs/lib.js"
+    }
+  },
+  "keywords": [
+    "rust",
+    "sender",
+    "receiver",
+    "async",
+    "sync",
+    "multi-producer",
+    "single-consumer",
+    "fifo",
+    "queue",
+    "communication",
+    "channel",
+    "stream"
+  ],
+  "author": "Seacrest",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/seacrst/mpsc-channel"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.20.2",
+    "typescript": "^5.4.5"
+  }
+}
