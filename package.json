@@ -1,7 +1,7 @@
 {
   "name": "mpsc-channel",
   "version": "1.0.0",
-  "description": "Simple mpsc channel function",
+  "description": "Multi-producer, single-consumer FIFO queue communication primitives",
   "scripts": {
     "start": "concurrently \"npm run check\" \"npm run watch\"",
     "watch": "node --watch lib/esm/lib.js",
