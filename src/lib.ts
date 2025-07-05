@@ -19,7 +19,7 @@ class Receiver<T> {
   recv(receiver: (value: T) => void): T | undefined {
     const value = this.channel.values.pop();
     
-    if (this.channel.values.length) {
+    if (value) {
       this.channel.receiver = receiver;
       this.channel.receiver(value!);
     }

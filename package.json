@@ -1,6 +1,6 @@
 {
   "name": "mpsc-channel",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Multi-producer, single-consumer FIFO queue communication primitives",
   "scripts": {
     "start": "concurrently \"npm run check\" \"npm run watch\"",
